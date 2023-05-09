@@ -71,14 +71,14 @@ fun applimonada() {
 
       2 -> Conteudoapp(
           R.string.limao,
-      R.drawable.espremelimao,
-      onImageCick = {
-          if (espremer>1)
-              espremer--
-          else
-          tela=3
-      }
-          )
+          R.drawable.espremelimao,
+          onImageCick = {
+              if (espremer>1)
+                  espremer--
+              else
+              tela=3
+          }
+      )
       3 -> Conteudoapp(
           R.string.copo_de_limonada,
           R.drawable.limonada,

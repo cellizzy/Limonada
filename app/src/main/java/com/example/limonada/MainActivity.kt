@@ -3,6 +3,7 @@ package com.example.limonada
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -17,6 +18,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,33 +54,52 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun applimonada() {
-  var tela= 4
+    var tela by remember { mutableStateOf(1) }
+    var espremer by remember { mutableStateOf(1) }
+
 
   when (tela) {
       1 -> Conteudoapp(
           R.string.limoeiro,
           R.drawable.limoeiro,
           onImageCick =  {
-              tela= 1
+              tela= 2
+              espremer=(2..4).random()
           }
       )
 
 
       2 -> Conteudoapp(
           R.string.limao,
-      R.drawable.espremelimao)
+      R.drawable.espremelimao,
+      onImageCick = {
+          if (espremer>1)
+              espremer--
+          else
+          tela=3
+      }
+          )
       3 -> Conteudoapp(
           R.string.copo_de_limonada,
-          R.drawable.limonada)
+          R.drawable.limonada,
+          onImageCick = {
+              tela=4
+          }
+      )
       4 -> Conteudoapp(
           R.string.copo_vazio,
-          R.drawable.reiniciar)
+          R.drawable.reiniciar,
+      onImageCick = {
+          tela=1
+      }
+          )
   }
 
 }
 @Composable
-fun Conteudoapp(recursoTextoId:Int, recursoImagemId:Int, onImageCick:()->Unit){
-
+fun Conteudoapp(recursoTextoId:Int,
+                recursoImagemId:Int,
+                onImageCick:()->Unit){
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -100,7 +124,7 @@ fun Conteudoapp(recursoTextoId:Int, recursoImagemId:Int, onImageCick:()->Unit){
                     RoundedCornerShape(16.dp)
 
                 )
-                .clickable(onClick =onImageCick)
+                .clickable(onClick = onImageCick)
         )
     }
 }
